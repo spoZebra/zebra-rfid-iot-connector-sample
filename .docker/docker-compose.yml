@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+
+  mosquitto:
+      image: eclipse-mosquitto:latest
+      container_name: mosquitto
+      restart: always
+      volumes:
+        - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw
+      ports:
+        - 1997:1997
+      # Shared Network
+      networks:
+          - mosquitto_go_net
+      # Make mosquitto reachable from outside (FX reader)
+      hostname: "$host_name"
+
+networks:
+  mosquitto_go_net:
+    driver: bridge

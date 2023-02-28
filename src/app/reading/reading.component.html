@@ -31,9 +31,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
+            <tr *ngFor="let tag of tagDataList">
+              <th scope="row">tag.idHex</th>
+              <td>tag.antenna</td>
             </tr>
             <tr>
               <th scope="row">2</th>
