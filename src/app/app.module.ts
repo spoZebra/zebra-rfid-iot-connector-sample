@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,12 +21,13 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     AppComponent,
     MonitorComponent,
     ReadingComponent,
-    InventoryComponent
+    InventoryComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MqttModule.forRoot(MQTT_SERVICE_OPTIONS)
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    NgxJsonViewerModule
   ],
   providers: [ ZebraIoTConnectorService ],
   bootstrap: [AppComponent]
