@@ -4,15 +4,21 @@
         <button type="button" class="btn btn-primary" style="width:100%;" (click)="start()">Start Reading</button>
         <button type="button" class="btn btn-danger" style="width:100%;margin-top: 5px;" (click)="stop()">Stop Reading</button>
         <div class="card text-bg-success mb-3" style="max-width: 18rem; margin-top: 15px;">
-            <div class="card-header">Reads Count</div>
+            <div class="card-header">Unique Tags Read</div>
             <div class="card-body">
-              <p class="text-center fs-1">{{tagDataList.length}}</p>
+              <p class="text-center fs-1">{{tagDataList.size}}</p>
+            </div>
+          </div>
+        <div class="card text-bg-secondary mb-3" style="max-width: 18rem;">
+            <div class="card-header">Total Reads</div>
+            <div class="card-body">
+              <p class="text-center fs-1">{{totalReadsCount}}</p>
             </div>
           </div>
         <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
             <div class="card-header">Error Count</div>
             <div class="card-body">
-              <p class="text-center fs-1">0</p>
+              <p class="text-center fs-1">20</p>
             </div>
           </div>
       </div>
@@ -22,14 +28,14 @@
             <tr>
               <th scope="col">EPC</th>
               <th scope="col">RSSI</th>
-              <th scope="col">Timestamp</th>
+              <th scope="col">Last Seen</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let tag of tagDataList">
-              <th scope="row">{{tag.data.idHex}}</th>
-              <td>{{tag.data.peakRssi}}</td>
-              <td>{{tag.timestamp}}</td>
+            <tr *ngFor="let tag of tagDataList | keyvalue">
+              <th scope="row">{{tag.key}}</th>
+              <td>{{tag.value.data.peakRssi}}</td>
+              <td>{{tag.value.timestamp}}</td>
             </tr>
           </tbody>
         </table>

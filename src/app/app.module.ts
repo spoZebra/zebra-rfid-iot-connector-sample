@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { MonitorComponent } from './monitor/monitor.component';
 import { ReadingComponent } from './reading/reading.component';
 import { ZebraIoTConnectorService } from './services/zebra-iot-connector-service';
+import { InventoryComponent } from './inventory/inventory.component';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: "127.0.0.1",
@@ -18,7 +19,8 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   declarations: [
     AppComponent,
     MonitorComponent,
-    ReadingComponent
+    ReadingComponent,
+    InventoryComponent
   ],
   imports: [
     BrowserModule,
