@@ -8,8 +8,7 @@ import { ZebraIoTConnectorService } from '../services/zebra-iot-connector-servic
 })
 export class MonitorComponent implements OnInit {
 
-  @ViewChild('chatList') chatList!: ElementRef;
-
+  public selectedInterface : string = "ctr"
   public interfaceMessages :  Map<string, Array<any>> = new Map<string, Array<any>>();
 
   constructor(public _zebraIoTConnectorService : ZebraIoTConnectorService) {}
@@ -32,20 +31,17 @@ export class MonitorComponent implements OnInit {
           array.push(message);
           this.interfaceMessages.set(mainTopic, array);
       }
-      this.scrollToBottom()
+      // TODO ADD AUTOSCROLL
     })
   }
 
-  scrollToBottom(): void {
-    try {
-        this.chatList.nativeElement.scrollTop = this.chatList.nativeElement.scrollHeight;
-    } catch(err) { 
-      console.log(err)
-    }
+  newInterfaceSelected(newInt : string){
+    this.selectedInterface = newInt
   }
+
   
   getSelectedList() : Array<any> {
-    return this.interfaceMessages.get("ctr") ?? new Array<any>();
+    return this.interfaceMessages.get(this.selectedInterface) ?? new Array<any>();
   }
   getSelectedListCount(interfaceTopic : string) : number {
     return (this.interfaceMessages.get(interfaceTopic) ?? new Array<any>()).length;

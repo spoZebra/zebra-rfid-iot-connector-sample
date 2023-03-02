@@ -2,20 +2,23 @@
   <div class="row">
 
   <div class="col" >
-    <button type="button" class="btn btn-primary d-flex justify-content-between" style="width:100%;margin-top: 10px;">
+    <button type="button" class="btn btn-primary d-flex justify-content-between" (click)="newInterfaceSelected('event')" style="width:100%;margin-top: 10px;">
+        Event Interface <span class="badge text-bg-secondary">{{getSelectedListCount('event')}}</span>
+    </button>
+    <button type="button" class="btn btn-primary d-flex justify-content-between" (click)="newInterfaceSelected('ctr')" style="width:100%;margin-top: 10px;">
         Control Interface <span class="badge text-bg-secondary">{{getSelectedListCount('ctr')}}</span>
     </button>
-    <button type="button" class="btn btn-primary d-flex justify-content-between" style="width:100%;margin-top: 10px;">
+    <button type="button" class="btn btn-primary d-flex justify-content-between" (click)="newInterfaceSelected('mgmt')" style="width:100%;margin-top: 10px;">
         Management Interface <span class="badge text-bg-secondary">{{getSelectedListCount('mgmt')}}</span>
     </button>
-    <button type="button" class="btn btn-primary d-flex justify-content-between" style="width:100%;margin-top: 10px;">
+    <button type="button" class="btn btn-primary d-flex justify-content-between" (click)="newInterfaceSelected('data')" style="width:100%;margin-top: 10px;">
         Data Interface <span class="badge text-bg-secondary">{{getSelectedListCount('data')}}</span>
     </button>
         
     </div>
     <div class="col-10">
               <div style="margin-top: 10px;">
-                  <ul #chatList class="list-unstyled" *ngFor="let message of getSelectedList()">
+                  <ul class="list-unstyled" *ngFor="let message of getSelectedList()">
                     <li>
                         <div class="card" [ngStyle]="message.isCommand ? {'margin-left': '30%'} : {'margin-right' : '30%'}">
                           <div class="card-header d-flex justify-content-between p-3" style="font-size: 0.8rem;" >
