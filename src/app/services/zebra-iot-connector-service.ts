@@ -15,8 +15,8 @@ export class ZebraIoTConnectorService implements OnInit {
     public newManagementEvent: EventEmitter<IMqttMessage> = new EventEmitter<IMqttMessage>();
 
     private dataInterface : string = "data"
-    private controlInterface : string = "ctr/#"
     private controlInterfaceCmd : string = "ctr/cmd"
+    private managementInterfaceCmd : string = "mgmt/cmd"
     
     constructor(private _mqttService: MqttService) { 
       this.subscribeToTopicData()
@@ -56,6 +56,9 @@ export class ZebraIoTConnectorService implements OnInit {
       console.log('subscribed to all topics')
     }
 
+    getInfo(){
+      this._mqttService.unsafePublish(this.managementInterfaceCmd, new SendCommandModel("get_info").toJson(), { qos: 0, retain: false });
+    }
     startReading(){
       this._mqttService.unsafePublish(this.controlInterfaceCmd, new SendCommandModel("start").toJson(), { qos: 0, retain: false });
     }

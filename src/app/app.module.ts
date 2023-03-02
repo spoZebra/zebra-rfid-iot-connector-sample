@@ -9,6 +9,8 @@ import { MonitorComponent } from './monitor/monitor.component';
 import { ReadingComponent } from './reading/reading.component';
 import { ZebraIoTConnectorService } from './services/zebra-iot-connector-service';
 import { InventoryComponent } from './inventory/inventory.component';
+import { HomeComponent } from './home/home.component';
+import { FormsModule } from '@angular/forms';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: "127.0.0.1",
@@ -22,10 +24,12 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MonitorComponent,
     ReadingComponent,
     InventoryComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     NgxJsonViewerModule
   ],
