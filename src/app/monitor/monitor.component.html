@@ -1,46 +1,41 @@
 <div class="container-fluid" style="margin-top: 10px;">
-    <div class="row">
-        <button type="button" class="btn btn-primary">
-            Control Interface <span class="badge text-bg-secondary">4</span>
-          </button>
-        
-        </div>
+  <div class="row">
 
-        <section style="background-color: #eee;">
-              <div class="row" style="margin-top: 10px">
-                  <ul class="list-unstyled">
-                    <li class="d-flex justify-content-between mb-4">
-                        <div class="card" style="margin-left: 20%;">
-                          <div class="card-header d-flex justify-content-between p-3">
-                            <p class="fw-bold mb-0">crl/res</p>
-                            <p class="text-muted small mb-0"><i class="far fa-clock"></i> 10 mins ago</p>
+  <div class="col" >
+    <button type="button" class="btn btn-primary d-flex justify-content-between" style="width:100%;margin-top: 10px;">
+        Control Interface <span class="badge text-bg-secondary">{{getSelectedListCount('ctr')}}</span>
+    </button>
+    <button type="button" class="btn btn-primary d-flex justify-content-between" style="width:100%;margin-top: 10px;">
+        Management Interface <span class="badge text-bg-secondary">{{getSelectedListCount('mgmt')}}</span>
+    </button>
+    <button type="button" class="btn btn-primary d-flex justify-content-between" style="width:100%;margin-top: 10px;">
+        Data Interface <span class="badge text-bg-secondary">{{getSelectedListCount('data')}}</span>
+    </button>
+        
+    </div>
+    <div class="col-10">
+              <div style="margin-top: 10px;">
+                  <ul #chatList class="list-unstyled" *ngFor="let message of getSelectedList()">
+                    <li>
+                        <div class="card" [ngStyle]="message.isCommand ? {'margin-left': '30%'} : {'margin-right' : '30%'}">
+                          <div class="card-header d-flex justify-content-between p-3" style="font-size: 0.8rem;" >
+                            <p class="fw-bold mb-0">{{message.topic}}</p>
+                            <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{message.timestamp}}</p>
                           </div>
-                          <div class="card-body">
-                              <ngx-json-viewer [json]="dummyJsonObject" [expanded]="false"></ngx-json-viewer>
+                          <div class="card-body" style="font-size: 0.7rem;" >
+                              <ngx-json-viewer [json]="message.payload" [expanded]="false"></ngx-json-viewer>
   
                           </div>
                         </div>
-                      </li>
-                      <li class="d-flex justify-content-between mb-4">
-                        <div class="card" style="margin-right: 20%;">
-                          <div class="card-header d-flex justify-content-between p-3">
-                            <p class="fw-bold mb-0">crl/res</p>
-                            <p class="text-muted small mb-0"><i class="far fa-clock"></i> 10 mins ago</p>
-                          </div>
-                          <div class="card-body">
-                              <ngx-json-viewer [json]="dummyJsonObject" [expanded]="false"></ngx-json-viewer>
-  
-                          </div>
-                        </div>
-                      </li>
-    
+                    </li>
                   </ul>
           
           
               </div>
           
-          </section>
+            </div>
 
         
     </div>
+  </div>
 
