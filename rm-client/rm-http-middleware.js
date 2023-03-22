@@ -13,8 +13,12 @@ app.use(cors({
     origin: '*'
 }));
 
+app.post('/rm/discovery/', (req, res) => {
+    console.log(req.body);
+    discoveryClient.discovery();
+    res.send();
+})
 app.post('/rm/login/', (req, res) => {
-    console.log(req.body)
     body = req.body;
     const data = `<?xml version="1.0" encoding="UTF-8"?>
   <rm:command epcglobal:creationDate="2001-12-17T09:30:47.0Z" epcglobal:schemaVersion="0.0" xsi:schemaLocation="urn:epcglobal:rm:xsd:1 ../../../schemas/RmCommand.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rm="urn:epcglobal:rm:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:motorm="urn:motorfid:rm:xsd:1">
@@ -52,7 +56,6 @@ app.post('/rm/login/', (req, res) => {
 
 
 app.post('/rm/et-config/:sessionId', (req, res) => {
-    console.log(req.body)
     body = req.body;
     const data = `<?xml version="1.0" encoding="utf-8"?>
   <rm:command epcglobal:creationDate="2001-12-17T09:30:47.0Z"
@@ -93,7 +96,6 @@ app.post('/rm/et-config/:sessionId', (req, res) => {
 })
 
 app.post('/rm/connect/:sessionId', (req, res) => {
-    console.log(req.body)
     body = req.body;
     const data = `<?xml version="1.0" encoding="UTF-8"?>
     <rm:command xmlns:rm="urn:epcglobal:rm:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:motorm="urn:motorfid:rm:xsd:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" epcglobal:creationDate="2001-12-17T09:30:47.0Z" epcglobal:schemaVersion="0.0" xsi:schemaLocation="urn:epcglobal:rm:xsd:1 ../../../schemas/RmCommand.xsd">
@@ -125,11 +127,6 @@ app.post('/rm/connect/:sessionId', (req, res) => {
     });
 });
 
-app.post('/discovery/', (req, res) => {
-    console.log(req.body);
-    discoveryClient.discovery();
-    res.send();
-})
 
 const parseXml = async (xml) => {
     const parser = new xml2js.Parser({ explicitArray: false });

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ZebraRmInterfaceService } from '../services/zebra-rm-interface-service';
 
@@ -7,16 +7,28 @@ import { ZebraRmInterfaceService } from '../services/zebra-rm-interface-service'
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
+  public readerList : Array<any> = new Array<any>();
   public searchReaderForm = this.formBuilder.group({
     hostname: '',
     username: '',
     password: ''
   });
 
-  constructor(public _zebraRmInterfaceService: ZebraRmInterfaceService, private formBuilder: FormBuilder) {}
+  constructor(private _zebraRmInterfaceService: ZebraRmInterfaceService, private formBuilder: FormBuilder) {
+  }
 
+  ngOnInit(): void {
+    this._zebraRmInterfaceService.newReaderDiscovered.subscribe((item : any) => {
+      if(item.result == "Success"){
+        this.readerList.unshift(item);
+      }
+    })
+
+    // Start discovery using my middleware
+    this._zebraRmInterfaceService.startDiscovery();
+  }
 
   onSearch(){
     this._zebraRmInterfaceService.login(

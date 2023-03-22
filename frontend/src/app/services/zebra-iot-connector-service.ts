@@ -24,14 +24,11 @@ export class ZebraIoTConnectorService implements OnInit {
     }
 
     ngOnInit(): void {
-        //this.subscribeToTopic("control")
-        //this.subscribeToTopic("management")
     }
   
     ngOnDestroy(): void {
         this.newTagDataReadEvent.unsubscribe();
         this.newInferfaceEvent.unsubscribe();
-        //this.newManagementEvent.unsubscribe();
     }
   
     subscribeToTopicData(): void {

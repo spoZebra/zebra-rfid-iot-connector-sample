@@ -2,6 +2,7 @@ const dgram = require('dgram');
 const crypto = require("crypto");
 var request = require("request");
 const xml2js = require('xml2js');
+var os = require('os');
 
 const mqttClient = require('./mqtt-client.js');
 
@@ -13,7 +14,12 @@ uniqueId = ''
 
 function discovery() {
   try {
-    exec();
+    var startPort = 65554;
+    var networkInterfaces = os.networkInterfaces();
+    Object.entries(networkInterfaces).forEach(([key, value]) => {
+      value.filter((x) => x.family == "IPv4").forEach((i) => {
+        exec(i.address);
+      })})
   }
   catch (err) {
     console.log(err);
@@ -21,7 +27,7 @@ function discovery() {
 }
 
 
-function exec() {
+function exec(address) {
   const socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
 
   socket.on('listening', () => {
@@ -48,9 +54,9 @@ function exec() {
     });
   });
 
-  socket.bind(65534, () => {
-    uniqueId = crypto.randomUUID(); // Probe request
-    discoveryRequest = `<?xml version="1.0" encoding="utf-8"?>
+  socket.bind(65534, address, () => {
+        uniqueId = crypto.randomUUID(); // Probe request
+        discoveryRequest = `<?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope
       xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
       xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
@@ -69,16 +75,16 @@ function exec() {
         </wsd:Probe>
       </soap:Body>
     </soap:Envelope>`
-    // Send discovery request
-    socket.send(discoveryRequest, 0, discoveryRequest.length, PORT, MULTICAST_ADDRESS, (err, bytes) => {
-      if (err) {
-        console.error('Error sending WS-Discovery message:', err);
-        socket.close();
-      } else {
-        console.log('WS-Discovery message sent:', discoveryRequest);
-      }
-    });
-  });
+        // Send discovery request
+        socket.send(discoveryRequest, 0, discoveryRequest.length, PORT, MULTICAST_ADDRESS, (err, bytes) => {
+          if (err) {
+            console.error('Error sending WS-Discovery message:', err);
+            socket.close();
+          } else {
+            console.log('WS-Discovery message sent:', discoveryRequest);
+          }
+        });
+      });
 }
 
 function isMatchingRequest(xml) {
@@ -93,7 +99,7 @@ function isMatchingRequest(xml) {
           const endpointReference = result['SOAP-ENV:Envelope']['SOAP-ENV:Body']['wsd:ProbeMatches']['wsd:ProbeMatch']['wsa:EndpointReference']['wsa:Address'];
 
           // Match probe request together with action
-          const isMatching = uniqueId == probeReqId && action == "http://schemas.xmlsoap.org/ws/2005/04/discovery/ProbeMatches";
+          const isMatching = action == "http://schemas.xmlsoap.org/ws/2005/04/discovery/ProbeMatches" //&&uniqueId == probeReqId temp bypass probeReqIdValidation ;
 
           return resolve({ isMatching, endpointReference });
         }
