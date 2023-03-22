@@ -1,0 +1,149 @@
+{
+    "endpointConfig": {
+    "control": {
+      "commandResponse": {
+        "connections": [
+          {
+            "description": "",
+            "name": "mqtt",
+            "options": {
+              "additional": {
+                "cleanSession": true,
+                "clientId": "fx",
+                "debug": false,
+                "keepAlive": 60,
+                "qos": 0,
+                "reconnectDelay": 1,
+                "reconnectDelayMax": 5
+              },
+              "enableSecurity": false,
+              "endpoint": {
+                "hostName": "myhostname",
+                "port": 1997,
+                "protocol": "ws"
+              },
+              "publishTopic": [
+                "ctr/res"
+              ],
+              "subscribeTopic": [
+                "ctr/cmd"
+              ]
+            },
+            "type": "mqtt"
+          }
+        ],
+        "enableLocalRest": false
+      }
+    },
+    "data": {
+      "event": {
+        "connections": [
+          {
+            "additionalOptions": {
+              "batching": null,
+              "retention": {
+                "maxEventRetentionTimeInMin": 500,
+                "maxNumEvents": 150000,
+                "throttle": 500
+              }
+            },
+            "description": "",
+            "name": "mqtt",
+            "options": {
+              "additional": {
+                "cleanSession": true,
+                "clientId": "fx",
+                "debug": false,
+                "keepAlive": 60,
+                "qos": 0,
+                "reconnectDelay": 1,
+                "reconnectDelayMax": 5
+              },
+              "enableSecurity": false,
+              "endpoint": {
+                "hostName": "myhostname",
+                "port": 1997,
+                "protocol": "ws"
+              },
+              "publishTopic": [
+                "data"
+              ],
+              "subscribeTopic": []
+            },
+            "type": "mqtt"
+          }
+        ]
+      },
+      "retention": {
+        "maxEventRetentionTimeInMin": 0,
+        "maxNumEvents": 150000,
+        "throttle": 500
+      }
+    },
+    "management": {
+      "commandResponse": {
+        "connections": [
+          {
+            "description": "",
+            "name": "mqtt",
+            "options": {
+              "additional": {
+                "cleanSession": true,
+                "clientId": "fx",
+                "debug": false,
+                "keepAlive": 60,
+                "qos": 0,
+                "reconnectDelay": 1,
+                "reconnectDelayMax": 5
+              },
+              "enableSecurity": false,
+              "endpoint": {
+                "hostName": "myhostname",
+                "port": 1997,
+                "protocol": "ws"
+              },
+              "publishTopic": [
+                "mgmt/res"
+              ],
+              "subscribeTopic": [
+                "mgmt/cmd"
+              ]
+            },
+            "type": "mqtt"
+          }
+        ],
+        "enableLocalRest": false
+      },
+      "event": {
+        "connections": [
+          {
+            "description": "",
+            "name": "mqtt",
+            "options": {
+              "additional": {
+                "cleanSession": true,
+                "clientId": "fx",
+                "debug": false,
+                "keepAlive": 60,
+                "qos": 0,
+                "reconnectDelay": 1,
+                "reconnectDelayMax": 5
+              },
+              "enableSecurity": false,
+              "endpoint": {
+                "hostName": "myhostname",
+                "port": 1997,
+                "protocol": "ws"
+              },
+              "publishTopic": [
+                "event"
+              ],
+              "subscribeTopic": []
+            },
+            "type": "mqtt"
+          }
+        ]
+      }
+    }
+  }
+}

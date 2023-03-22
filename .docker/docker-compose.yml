@@ -15,7 +15,6 @@ services:
           - mosquitto_go_net
       # Make mosquitto reachable from outside (FX reader)
       hostname: "$host_name"
-
 networks:
   mosquitto_go_net:
     driver: bridge

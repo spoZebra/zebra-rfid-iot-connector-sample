@@ -1,0 +1,39 @@
+<div class="container-fluid" style="margin-top: 10px;">
+    <div class="row">
+      <div class="col-sm-4">
+    <div class="card text-bg-secondary mb-3" style="max-width: 28rem;">
+    <div class="card-header">Configure Reader</div>
+    <div class="card-body">
+        <form [formGroup]="searchReaderForm" (ngSubmit)="onSearch()">
+            <div>
+                <label for="hostname">
+                  HostName / IP:
+                </label>
+                <input id="hostname"class="form-control" type="text" formControlName="hostname" placeholder="e.g. FX9600XXXXXX or 192.168.1.X">
+            </div>        
+            <div>
+                <label for="username">
+                  Username:
+                </label>
+                <input id="username"class="form-control" type="text" formControlName="username" placeholder="Default is 'admin'">
+            </div>        
+            <div>
+                <label for="password">
+                  Password:
+                </label>
+                <input id="password"class="form-control" type="password" formControlName="password" placeholder="Default is 'change'">
+            </div>
+            <button type="button" class="btn btn-primary" style="width:100%;margin-top: 10px;" (click)="onSearch()">Search</button>
+            
+            <!-- label for="hostnameInput" class="form-label">HostName / IP:</label>
+            <input type="text" class="form-control" id="hostnameInput" placeholder="">
+            <label for="usernameInput" class="form-label">Username:</label>
+            <input type="text" class="form-control" id="usernameInput" placeholder="Default is 'admin'">
+            <label for="passwordInput" class="form-label">Password:</label>
+            <input type="password" class="form-control" id="passwordInput" placeholder="Default is 'change'">
+            
+            <button type="button" class="btn btn-primary" style="width:100%;" (click)="onSearch()">Search</button>
+            -->
+        </form>
+    </div>
+</div>    
