@@ -14,7 +14,6 @@ uniqueId = ''
 
 function discovery() {
   try {
-    var startPort = 65554;
     var networkInterfaces = os.networkInterfaces();
     Object.entries(networkInterfaces).forEach(([key, value]) => {
       value.filter((x) => x.family == "IPv4").forEach((i) => {

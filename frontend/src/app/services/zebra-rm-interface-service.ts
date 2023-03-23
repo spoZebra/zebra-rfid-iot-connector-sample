@@ -37,7 +37,7 @@ export class ZebraRmInterfaceService implements OnInit {
     }
 
     login(hostname: string, username: string, password: string) {
-        return this.httpClient.post<string>("http://localhost:3000/rm/login",
+        return this.httpClient.post<any>("http://localhost:3000/rm/login",
             {
                 "hostname": hostname,
                 "username": username,

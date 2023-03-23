@@ -18,6 +18,7 @@ app.post('/rm/discovery/', (req, res) => {
     discoveryClient.discovery();
     res.send();
 })
+
 app.post('/rm/login/', (req, res) => {
     body = req.body;
     const data = `<?xml version="1.0" encoding="UTF-8"?>
@@ -55,7 +56,7 @@ app.post('/rm/login/', (req, res) => {
 })
 
 
-app.post('/rm/et-config/:sessionId', (req, res) => {
+app.post('/rm/set-config/:sessionId', (req, res) => {
     body = req.body;
     const data = `<?xml version="1.0" encoding="utf-8"?>
   <rm:command epcglobal:creationDate="2001-12-17T09:30:47.0Z"
