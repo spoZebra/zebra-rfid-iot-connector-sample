@@ -9,7 +9,7 @@ export class ZebraRmInterfaceService implements OnInit {
 
     public newReaderDiscovered: EventEmitter<any> = new EventEmitter<any>();
 
-    private discoveryTopic: string = "/zebra/discovery"
+    private discoveryTopic: string = "zebra/discovery"
 
     ngOnInit(): void {
     }

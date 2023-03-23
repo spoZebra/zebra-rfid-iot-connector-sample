@@ -42,9 +42,9 @@ function exec(address) {
     isMatchingRequest(msg.toString()).then(({ isMatching, endpointReference }) => {
       if (isMatching == true) {
         // Send SOAP Req
-        generateGetReq(rinfo.address, endpointReference).then(({ model, friendlyName, fwVersion, serialNumber }) => {
+        generateGetReq(rinfo.address, endpointReference).then(({ address, model, friendlyName, fwVersion, serialNumber }) => {
           // Send reader data thru MQTT to the Angular App
-          mqttClient.publish('zebra/discovery', { result: "Success", model, friendlyName, fwVersion, serialNumber });
+          mqttClient.publish('zebra/discovery', { result: "Success", address, model, friendlyName, fwVersion, serialNumber });
         }).catch(err => {
           console.error(err);
         });
@@ -81,7 +81,7 @@ function exec(address) {
             console.error('Error sending WS-Discovery message:', err);
             socket.close();
           } else {
-            console.log('WS-Discovery message sent:', discoveryRequest);
+            console.log('WS-Discovery message sent (' + address + '): ', discoveryRequest);
           }
         });
       });
@@ -144,6 +144,8 @@ function generateGetReq(ipAdd, endpointReference) {
     }, function (error, response, body) {
       if (error) {
         console.log(error)
+        
+        return resolve({ address: ipAdd, model : "Unknown", friendlyName: "Please connect to the web console and assign a valid IP to this device", fwVersion : "Unknown", serialNumber : "Unknown" }); // APIPA
       } else {
         console.log(body)
         // Get Hostname and send data thru MQTT
@@ -156,7 +158,7 @@ function generateGetReq(ipAdd, endpointReference) {
               const friendlyName = result['SOAP-ENV:Envelope']['SOAP-ENV:Body']['wsm:Metadata']['wsm:MetadataSection'][1]['wdp:ThisDevice']['wdp:FriendlyName'];;
               const fwVersion = result['SOAP-ENV:Envelope']['SOAP-ENV:Body']['wsm:Metadata']['wsm:MetadataSection'][1]['wdp:ThisDevice']['wdp:FirmwareVersion'];
               const serialNumber = result['SOAP-ENV:Envelope']['SOAP-ENV:Body']['wsm:Metadata']['wsm:MetadataSection'][1]['wdp:ThisDevice']['wdp:SerialNumber'];
-              return resolve({ model, friendlyName, fwVersion, serialNumber });
+              return resolve({ address: ipAdd, model, friendlyName, fwVersion, serialNumber });
             }
             catch (err) {
               reject(err);

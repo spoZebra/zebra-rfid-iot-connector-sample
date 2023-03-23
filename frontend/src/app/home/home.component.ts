@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
     password: ''
   });
 
+  public discovering : Boolean = false;
+
   constructor(private _zebraRmInterfaceService: ZebraRmInterfaceService, private formBuilder: FormBuilder) {
   }
 
@@ -26,8 +28,12 @@ export class HomeComponent implements OnInit {
       }
     })
 
+  }
+
+  startDiscovery(){
     // Start discovery using my middleware
     this._zebraRmInterfaceService.startDiscovery();
+    this.discovering = true;
   }
 
   onSearch(){
