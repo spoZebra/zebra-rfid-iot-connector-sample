@@ -4,7 +4,7 @@ const cors = require('cors');
 const discoveryClient = require('./discovery-service.js');
 
 const app = express()
-const port = 3000
+const port = 3997
 
 // Body parser
 app.use(express.urlencoded({ extended: true }));

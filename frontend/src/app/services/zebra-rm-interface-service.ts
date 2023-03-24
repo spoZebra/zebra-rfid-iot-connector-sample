@@ -33,11 +33,11 @@ export class ZebraRmInterfaceService implements OnInit {
     }
 
     startDiscovery() { 
-        return  this.httpClient.post<string>("http://localhost:3000/rm/discovery/", {}).subscribe(() =>{})
+        return  this.httpClient.post<string>("http://localhost:3997/rm/discovery/", {}).subscribe(() =>{})
     }
 
     login(hostname: string, username: string, password: string) {
-        return this.httpClient.post<any>("http://localhost:3000/rm/login",
+        return this.httpClient.post<any>("http://localhost:3997/rm/login",
             {
                 "hostname": hostname,
                 "username": username,

@@ -15,6 +15,16 @@ services:
           - mosquitto_go_net
       # Make mosquitto reachable from outside (FX reader)
       hostname: "$host_name"
+  angular-app:
+    image: 'ng-docker'
+    build: './../frontend/'
+    ports:
+        - 80:80
+  rm-middleware:
+    image: 'node:lts'
+    build: './../rm-client/'
+    ports:
+        - 3997:3997
 networks:
   mosquitto_go_net:
     driver: bridge

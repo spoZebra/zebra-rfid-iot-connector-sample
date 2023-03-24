@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  zebrarfidiotconnectorrmclient:
+    image: zebrarfidiotconnectorrmclient
+    build:
+      context: rm-client
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3997:3997
