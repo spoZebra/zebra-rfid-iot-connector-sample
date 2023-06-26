@@ -138,4 +138,13 @@ const parseXml = async (xml) => {
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)
+    require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+        console.log('addr: ' + add);
+      })
+      var os = require('os');
+
+var networkInterfaces = os.networkInterfaces();
+
+console.log(networkInterfaces);
+discoveryClient.discovery();
 })

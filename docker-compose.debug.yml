@@ -1,14 +1,30 @@
 version: '3.4'
 
 services:
-  zebrarfidiotconnectorrmclient:
-    image: zebrarfidiotconnectorrmclient
-    build:
-      context: rm-client
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: development
+  mosquitto:
+      image: eclipse-mosquitto:latest
+      container_name: mosquitto
+      restart: always
+      volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw
+      ports:
+        - 1997:1997
+      hostname: "$host_name"
+
+  angular-app:
+    image: 'angular-app'
+    build: './frontend/'
     ports:
-      - 3997:3997
-      - 9229:9229
-    command: ["node", "--inspect=0.0.0.0:9229", "index.js"]
+      - 80:80
+      # Make mosquitto reachable from outside (FX reader)
+    hostname: "$host_name"
+    
+  rm-middleware:
+    image: rm-middleware
+    build: './rm-client/'
+    ports:
+        - 3997:3997
+        - 65534:3702
+    volumes:
+        - ./rm-client/:/usr/src/app
+
