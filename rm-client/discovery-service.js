@@ -13,6 +13,9 @@ const MULTICAST_ADDRESS = '239.255.255.250'; // Default broadcast address
 uniqueId = ''
 
 function discovery() {
+  console.log('mistico');
+  test();
+}/*
   try {
     var networkInterfaces = os.networkInterfaces();
     Object.entries(networkInterfaces).forEach(([key, value]) => {
@@ -23,15 +26,55 @@ function discovery() {
   catch (err) {
     console.log(err);
   }
+}*/
+function test(){
+
+  console.log('mistico');
+
+// Get the network interfaces
+const networkInterfaces = os.networkInterfaces();
+
+
+// UDP packet information
+const multicastAddress = '239.255.0.1';
+const port = 3702;
+const message = 'Hello, Multicast!';
+
+// Bind the socket to all physical interfaces
+Object.values(networkInterfaces)
+  .flatMap((interfaces) => interfaces)
+  .filter((iface) => iface.internal === false && iface.family === 'IPv4')
+  .forEach((iface) => {
+    // Create a UDP socket
+    const socket = dgram.createSocket({type: 'udp4', reuseAddr: true});
+    socket.addMembership(multicastAddress);
+    socket.bind(port, iface.address);
+    // Send UDP packets in a loop
+    setInterval(() => {
+      socket.send(message, port, multicastAddress, (error) => {
+        if (error) {
+          console.error('Error sending UDP packet:', error);
+        } else {
+          console.log('UDP packet sent:', message);
+        }
+      });
+    }, 1000); // Adjust the interval as needed
+  });
+
 }
 
-
 function exec(address) {
-  const socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
 
-  socket.on('listening', () => {
+  const socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
+  socket.bind(3702, address, () => {
     socket.setBroadcast(true);
+
+    socket.setMulticastTTL(128);
+
     socket.addMembership(MULTICAST_ADDRESS);
+    setInterval(function() {
+      wow(socket);
+    }, 3000)
   });
 
   socket.on('message', (msg, rinfo) => {
@@ -53,37 +96,38 @@ function exec(address) {
     });
   });
 
-  socket.bind(65534, address, () => {
-        uniqueId = crypto.randomUUID(); // Probe request
-        discoveryRequest = `<?xml version="1.0" encoding="utf-8"?>
-    <soap:Envelope
-      xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
-      xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
-      xmlns:wsd="http://schemas.xmlsoap.org/ws/2005/04/discovery"
-      xmlns:wsdp="http://schemas.xmlsoap.org/ws/2006/02/devprof">
-      <soap:Header>
-        <wsa:To>urn:schemas-xmlsoap-org:ws:2005:04:discovery</wsa:To>
-        <wsa:Action>http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</wsa:Action>
-        <wsa:MessageID>${uniqueId}</wsa:MessageID>
-      </soap:Header>
-      <soap:Body>
-        <wsd:Probe>
-          <wsd:Types
-            xmlns:_0="http://standards.iso.org/iso/24791-3/2009/rdmp">_0:ISO24791-3
-          </wsd:Types>
-        </wsd:Probe>
-      </soap:Body>
-    </soap:Envelope>`
-        // Send discovery request
-        socket.send(discoveryRequest, 0, discoveryRequest.length, PORT, MULTICAST_ADDRESS, (err, bytes) => {
-          if (err) {
-            console.error('Error sending WS-Discovery message:', err);
-            socket.close();
-          } else {
-            console.log('WS-Discovery message sent (' + address + '): ', discoveryRequest);
-          }
-        });
-      });
+}
+
+function wow(socket){
+  uniqueId = crypto.randomUUID(); // Probe request
+  discoveryRequest = `<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope
+xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+xmlns:wsd="http://schemas.xmlsoap.org/ws/2005/04/discovery"
+xmlns:wsdp="http://schemas.xmlsoap.org/ws/2006/02/devprof">
+<soap:Header>
+  <wsa:To>urn:schemas-xmlsoap-org:ws:2005:04:discovery</wsa:To>
+  <wsa:Action>http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</wsa:Action>
+  <wsa:MessageID>${uniqueId}</wsa:MessageID>
+</soap:Header>
+<soap:Body>
+  <wsd:Probe>
+    <wsd:Types
+      xmlns:_0="http://standards.iso.org/iso/24791-3/2009/rdmp">_0:ISO24791-3
+    </wsd:Types>
+  </wsd:Probe>
+</soap:Body>
+</soap:Envelope>`
+  // Send discovery request
+  socket.send(discoveryRequest, 0, discoveryRequest.length, PORT, MULTICAST_ADDRESS, (err, bytes) => {
+    if (err) {
+      console.error('Error sending WS-Discovery message:', err);
+      //socket.close();
+    } else {
+      console.log('WS-Discovery message sent (' + '): ', discoveryRequest);
+    }
+  });
 }
 
 function isMatchingRequest(xml) {
