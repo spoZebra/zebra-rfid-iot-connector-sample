@@ -103,13 +103,13 @@ app.post('/rm/set-config/', (req, res) => {
 })
 
 app.post('/rm/connect/', (req, res) => {
-    body = req.body;
+    bodyReq = req.body;
     const data = `<?xml version="1.0" encoding="UTF-8"?>
     <rm:command xmlns:rm="urn:epcglobal:rm:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:motorm="urn:motorfid:rm:xsd:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" epcglobal:creationDate="2001-12-17T09:30:47.0Z" epcglobal:schemaVersion="0.0" xsi:schemaLocation="urn:epcglobal:rm:xsd:1 ../../../schemas/RmCommand.xsd">
        <rm:id>104</rm:id>
        <rm:targetName />
        <motorm:readerDevice>
-          <motorm:sessionID>${body.sessionID}</motorm:sessionID>
+          <motorm:sessionID>${bodyReq.sessionID}</motorm:sessionID>
           <motorm:enrollToCloud>
              <motorm:provider>2</motorm:provider>
              <motorm:code>xxx</motorm:code>
@@ -121,7 +121,7 @@ app.post('/rm/connect/', (req, res) => {
     var request = require("request");
     request.post({
         rejectUnauthorized: false,
-        url: `https://${body.host}/control`,
+        url: `https://${bodyReq.host}/control`,
         method: "POST",
         headers: {
             'Content-Type': 'application/xml',
@@ -136,7 +136,7 @@ app.post('/rm/connect/', (req, res) => {
             <rm:id>104</rm:id>
             <rm:targetName />
             <motorm:readerDevice>
-                <motorm:sessionID>${body.sessionID}</motorm:sessionID>
+                <motorm:sessionID>${bodyReq.sessionID}</motorm:sessionID>
                 <motorm:connectToCloud />
             </motorm:readerDevice>
             </rm:command>`;
@@ -144,7 +144,7 @@ app.post('/rm/connect/', (req, res) => {
             var request = require("request");
             request.post({
                 rejectUnauthorized: false,
-                url: `https://${body.host}/control`,
+                url: `https://${bodyReq.host}/control`,
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/xml',
