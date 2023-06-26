@@ -27,36 +27,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this._zebraRmInterfaceService.newReaderDiscovered.subscribe((item: any) => {
-      if (item.result == "Success") {
-        item.isFlipped = false;
+      if (item.result == "Success" && this.readerList.find(x => x.address == item.address) == null) {
+        item.flipped = false;
         this.readerList.unshift(item);
       }
     })
-    this.readerList.unshift(
-      {
-        address: this.searchReaderForm.value.hostname, 
-        model: "Unknown", 
-        friendlyName: "Manually Added", 
-        fwVersion: "Unknown", 
-        serialNumber: "Unknown",
-        username: this.searchReaderForm.value.username!,
-        password: this.searchReaderForm.value.password!,
-        isFlipped: false,
-      }
-    );
-    this.readerList.unshift(
-      {
-        address: this.searchReaderForm.value.hostname, 
-        model: "Unknown", 
-        friendlyName: "Manually Added", 
-        fwVersion: "Unknown", 
-        serialNumber: "Unknown",
-        username: this.searchReaderForm.value.username!,
-        password: this.searchReaderForm.value.password!,
-        isFlipped: false,
-      }
-    );
-    
   }
 
   startDiscovery() {
@@ -87,15 +62,36 @@ export class HomeComponent implements OnInit {
         }
       })
   }
-  
 
-  flipCard(reader: any) {
-    this.readerList[0].isFlipped = true;
+  toggleConfiguration(reader : any) {
+    this.readerList.find(x => x.address == reader.address).flipped = !reader.flipped;
+  }
+
+  onReaderConfigure(reader: any) {
+    var myReader = this.readerList.find(x => x.address == reader.address);
+    myReader.flipped = true;
+    myReader.username = this.configureReader.value.username
+    myReader.password = this.configureReader.value.password
 
     this._zebraRmInterfaceService.login(
-      this.searchReaderForm.value.hostname!,
-      this.searchReaderForm.value.username!,
-      this.searchReaderForm.value.password!)
+      myReader.address,
+      this.configureReader.value.username!,
+      this.configureReader.value.password!).subscribe((req: any) => {
+
+        if(req.error){
+          this.configureReader.setErrors(req.error)
+          return
+        }
+        
+        this._zebraRmInterfaceService.getTargetCloudConfig().subscribe((data) => {
+          this._zebraRmInterfaceService.setCloudConfig(myReader.address, req.sessionID, data).subscribe(() => {
+            myReader.isConfigured = true;
+            myReader.flipped = false;
+            this._zebraRmInterfaceService.connectToCloud(myReader.address, req.sessionID).subscribe(() => {
+            })
+          })
+        })
+      })
   }
 
 }

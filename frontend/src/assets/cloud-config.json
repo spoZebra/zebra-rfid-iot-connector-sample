@@ -1,0 +1,142 @@
+{    
+    "control": {
+      "commandResponse": {
+        "connections": [
+          {
+            "description": "spozebra-mqtt-demo",
+            "name": "spozebra-mqtt-demo",
+            "options": {
+              "additional": {
+                "cleanSession": true,
+                "clientId": "fx",
+                "debug": false,
+                "keepAlive": 60,
+                "qos": 0,
+                "reconnectDelay": 1,
+                "reconnectDelayMax": 5
+              },
+              "enableSecurity": false,
+              "endpoint": {
+                "hostName": "myIpAddress",
+                "port": 1997,
+                "protocol": "ws"
+              },
+              "publishTopic": [
+                "mgmt/res"
+              ],
+              "subscribeTopic": [
+                "mgmt/cmd"
+              ]
+            },
+            "type": "mqtt"
+          }
+        ],
+        "enableLocalRest": false
+      }
+    },
+    "data": {
+      "event": {
+        "connections": [
+          {
+            "additionalOptions": {
+              "batching": null,
+              "retention": {
+                "maxEventRetentionTimeInMin": 500,
+                "maxNumEvents": 150000,
+                "throttle": 100
+              }
+            },
+            "description": "spozebra-mqtt-demo",
+            "name": "spozebra-mqtt-demo",
+            "options": {
+              "additional": {
+                "cleanSession": true,
+                "clientId": "fx",
+                "debug": false,
+                "keepAlive": 60,
+                "qos": 0,
+                "reconnectDelay": 1,
+                "reconnectDelayMax": 5
+              },
+              "enableSecurity": false,
+              "endpoint": {
+                "hostName": "myIpAddress",
+                "port": 1997,
+                "protocol": "ws"
+              },
+              "publishTopic": [
+                "data"
+              ],
+              "subscribeTopic": []
+            },
+            "type": "mqtt"
+          }
+        ]
+      }
+    },
+    "management": {
+      "commandResponse": {
+        "connections": [
+          {
+            "description": "spozebra-mqtt-demo",
+            "name": "spozebra-mqtt-demo",
+            "options": {
+              "additional": {
+                "cleanSession": true,
+                "clientId": "fx",
+                "debug": false,
+                "keepAlive": 60,
+                "qos": 0,
+                "reconnectDelay": 1,
+                "reconnectDelayMax": 5
+              },
+              "enableSecurity": false,
+              "endpoint": {
+                "hostName": "myIpAddress",
+                "port": 1997,
+                "protocol": "ws"
+              },
+              "publishTopic": [
+                "ctr/res"
+              ],
+              "subscribeTopic": [
+                "ctr/cmd"
+              ]
+            },
+            "type": "mqtt"
+          }
+        ],
+        "enableLocalRest": false
+      },
+      "event": {
+        "connections": [
+          {
+            "description": "spozebra-mqtt-demo",
+            "name": "spozebra-mqtt-demo",
+            "options": {
+              "additional": {
+                "cleanSession": true,
+                "clientId": "fx",
+                "debug": false,
+                "keepAlive": 60,
+                "qos": 0,
+                "reconnectDelay": 1,
+                "reconnectDelayMax": 5
+              },
+              "enableSecurity": false,
+              "endpoint": {
+                "hostName": "myIpAddress",
+                "port": 1997,
+                "protocol": "ws"
+              },
+              "publishTopic": [
+                "mgmt/events"
+              ],
+              "subscribeTopic": []
+            },
+            "type": "mqtt"
+          }
+        ]
+      }
+    }
+}
