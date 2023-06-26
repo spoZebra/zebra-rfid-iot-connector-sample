@@ -15,6 +15,20 @@ services:
           - mosquitto_go_net
       # Make mosquitto reachable from outside (FX reader)
       hostname: "$host_name"
+  angular-app:
+    image: 'angular-app'
+    build: '../frontend/'
+    ports:
+      - 80:80
+  # rm-middleware:
+  #   image: rm-middleware
+  #   build: './../rm-client/'
+  #   ports:
+  #       - 3997:3997
+  #       - 65534:3702
+  #   volumes:
+  #       - ./rm-client/:/usr/src/app
+
 networks:
   mosquitto_go_net:
     driver: bridge

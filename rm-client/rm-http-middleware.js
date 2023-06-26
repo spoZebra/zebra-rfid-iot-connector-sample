@@ -48,15 +48,21 @@ app.post('/rm/login/', (req, res) => {
             res.send(error)
         } else {
             const result = await parseXml(body);
-            const sessionID = result['g1:reply']['g3:readerDevice']['g3:doLogin']['g3:sessionID'];
-            console.log(sessionID);
-            res.send({ sessionID });
+            if(result['g1:reply']['g1:error']) {
+                console.log("ERROR");
+                res.send({"error" : result['g1:reply']['g1:error']["g1:description"]});
+            }
+            else {
+                const sessionID = result['g1:reply']['g3:readerDevice']['g3:doLogin']['g3:sessionID'];
+                console.log(sessionID);
+                res.send({ sessionID });
+            }
         }
     });
 })
 
 
-app.post('/rm/set-config/:sessionId', (req, res) => {
+app.post('/rm/set-config/', (req, res) => {
     body = req.body;
     const data = `<?xml version="1.0" encoding="utf-8"?>
   <rm:command epcglobal:creationDate="2001-12-17T09:30:47.0Z"
@@ -69,9 +75,9 @@ app.post('/rm/set-config/:sessionId', (req, res) => {
     <rm:id>99</rm:id>
     <rm:targetName>MyFX7500</rm:targetName>
     <motorm:readerDevice>
-      <motorm:sessionID>${req.params.sessionId}</motorm:sessionID>
+      <motorm:sessionID>${req.body.sessionID}</motorm:sessionID>
       <motorm:importCloudConfigToReader>
-        <motorm:CloudConfigData>${body}</motorm:CloudConfigData>
+        <motorm:CloudConfigData>${JSON.stringify(body.data)}</motorm:CloudConfigData>
         </motorm:importCloudConfigToReader>
       </motorm:readerDevice>
     </rm:command>`;
@@ -96,15 +102,19 @@ app.post('/rm/set-config/:sessionId', (req, res) => {
     });
 })
 
-app.post('/rm/connect/:sessionId', (req, res) => {
+app.post('/rm/connect/', (req, res) => {
     body = req.body;
     const data = `<?xml version="1.0" encoding="UTF-8"?>
     <rm:command xmlns:rm="urn:epcglobal:rm:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:motorm="urn:motorfid:rm:xsd:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" epcglobal:creationDate="2001-12-17T09:30:47.0Z" epcglobal:schemaVersion="0.0" xsi:schemaLocation="urn:epcglobal:rm:xsd:1 ../../../schemas/RmCommand.xsd">
        <rm:id>104</rm:id>
        <rm:targetName />
        <motorm:readerDevice>
-          <motorm:sessionID>${sessionID}</motorm:sessionID>
-          <motorm:connectToCloud />
+          <motorm:sessionID>${body.sessionID}</motorm:sessionID>
+          <motorm:enrollToCloud>
+             <motorm:provider>2</motorm:provider>
+             <motorm:code>xxx</motorm:code>
+             <motorm:autoConnect>true</motorm:autoConnect>
+          </motorm:enrollToCloud>
        </motorm:readerDevice>
     </rm:command>`;
 
@@ -121,9 +131,34 @@ app.post('/rm/connect/:sessionId', (req, res) => {
         if (error) {
             res.send(error)
         } else {
-            const result = await parseXml(body);
-            console.log(result);
-            res.send(result);
+            const data = `<?xml version="1.0" encoding="UTF-8"?>
+            <rm:command xmlns:rm="urn:epcglobal:rm:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:motorm="urn:motorfid:rm:xsd:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" epcglobal:creationDate="2001-12-17T09:30:47.0Z" epcglobal:schemaVersion="0.0" xsi:schemaLocation="urn:epcglobal:rm:xsd:1 ../../../schemas/RmCommand.xsd">
+            <rm:id>104</rm:id>
+            <rm:targetName />
+            <motorm:readerDevice>
+                <motorm:sessionID>${body.sessionID}</motorm:sessionID>
+                <motorm:connectToCloud />
+            </motorm:readerDevice>
+            </rm:command>`;
+
+            var request = require("request");
+            request.post({
+                rejectUnauthorized: false,
+                url: `https://${body.host}/control`,
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/xml',
+                },
+                body: data
+            }, async function (error, response, body) {
+                if (error) {
+                    res.send(error)
+                } else {
+                    const result = await parseXml(body);
+                    console.log(result);
+                    res.send(result);
+                }
+            });
         }
     });
 });
