@@ -13,6 +13,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ZebraRmInterfaceService } from './services/zebra-rm-interface-service';
+import { WriteComponent } from './write/write.component';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: "127.0.0.1",
@@ -27,6 +28,7 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     ReadingComponent,
     InventoryComponent,
     HomeComponent,
+    WriteComponent,
   ],
   imports: [
     BrowserModule,

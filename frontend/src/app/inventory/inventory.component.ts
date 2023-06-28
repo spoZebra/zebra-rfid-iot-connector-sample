@@ -14,7 +14,7 @@ export class InventoryComponent {
   constructor(private _zebraIoTConnectorService : ZebraIoTConnectorService){ }
 
   ngOnInit(): void {
-    this._zebraIoTConnectorService.newTagDataReadEvent.subscribe((tagData : any) => {
+    this._zebraIoTConnectorService.newTagAccessOpEvent.subscribe((tagData : any) => {
       // Check if we've received an array of tag or just one tag
       if(Array.isArray(tagData.data)){
         tagData.data.forEach((singleData: any) => {
@@ -35,9 +35,9 @@ export class InventoryComponent {
   }
 
   start(){
-    this._zebraIoTConnectorService.startReading()
+    this._zebraIoTConnectorService.startOperation()
   }
   stop(){
-    this._zebraIoTConnectorService.stopReading()
+    this._zebraIoTConnectorService.stopOperation()
   }
 }

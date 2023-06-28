@@ -21,6 +21,8 @@
           <thead class="table-primary">
             <tr>
               <th scope="col">EPC</th>
+              <th scope="col">TID</th>
+              <th scope="col">HostName</th>
               <th scope="col">RSSI</th>
               <th scope="col">Timestamp</th>
             </tr>
@@ -28,6 +30,8 @@
           <tbody>
             <tr *ngFor="let tag of tagDataList">
               <th scope="row">{{tag.data.idHex}}</th>
+              <td>{{tag.data.TID}}</td>
+              <td>{{tag.data.hostName}}</td>
               <td>{{tag.data.peakRssi}}</td>
               <td>{{tag.timestamp}}</td>
             </tr>

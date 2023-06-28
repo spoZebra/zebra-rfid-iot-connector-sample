@@ -1,0 +1,34 @@
+{
+    "type": "CUSTOM",
+    "filter": {
+        "match": "prefix",
+        "operation": "include",
+        "value": "myIdHex"
+    },
+    "accesses": [
+        {
+            "type": "READ",
+            "config": {
+                "membank": "EPC",
+                "wordPointer": 2,
+                "wordCount": 1
+            }
+        },
+        {
+            "type": "WRITE",
+            "config": {
+                "membank": "EPC",
+                "wordPointer": 2,
+                "data": "4349414f"
+            }
+        },
+        {
+            "type": "READ",
+            "config": {
+                "membank": "EPC",
+                "wordPointer": 2,
+                "wordCount": 1
+            }
+        }
+    ]
+}

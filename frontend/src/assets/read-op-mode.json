@@ -1,0 +1,25 @@
+{
+    "filter": {
+        "match": "prefix",
+        "operation": "include",
+        "value": ""
+    },
+    "reportFilter": {
+        "duration": 0,
+        "type": "RADIO_WIDE"
+    },
+    "tagMetaData": [
+        "ANTENNA",
+        "RSSI",
+        "CHANNEL",
+        "PC",
+        "XPC",
+        "CRC",
+        "MAC",
+        "HOSTNAME",
+        "SEEN_COUNT",
+        "PHASE",
+        "TID"
+    ],
+    "type": "SIMPLE"
+}

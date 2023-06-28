@@ -1,0 +1,53 @@
+<div class="container-fluid" style="margin-top: 10px;">
+    <div class="row">
+        <div class="col-sm-2">
+            <form [formGroup]="writeSettingsForm" (ngSubmit)="writeTag()">
+                <div>
+                    <label for="tagId">
+                        Tag ID:
+                    </label>
+                    <input id="tagId" class="form-control form-control-sm" type="text" formControlName="tagId"
+                        placeholder="TagId to be written">
+                    <label for="memoryBank">
+                        Memory Bank:
+                    </label>
+                    <select id="memoryBank"style="-webkit-appearance: menulist;" class="form-control form-control-sm" formControlName="memoryBank" 
+                        placeholder="Memory Bank to be written">
+                        <option value="EPC">EPC</option>
+                        <option value="TID">TID</option>
+                        <option value="USER">USER</option>
+                    </select>
+                    <label for="data">
+                        Hex Data:
+                    </label>
+                    <input id="memoryBank" class="form-control form-control-sm" type="text" formControlName="data"
+                        placeholder="Hexadecimal data to be written">
+                </div>
+                <button type="button" class="btn btn-primary" style="width:100%;margin-top: 10px;"
+                    (click)="writeTag()">Start Operation</button>
+                <button type="button" class="btn btn-primary" style="width:100%;margin-top: 10px;"
+                    (click)="stop()">Stop Operation</button>
+            </form>
+        </div>
+        <div class="col">
+            <table class="table table-dark">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col">EPC</th>
+                        <th scope="col">Result</th>
+                        <th scope="col">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tag of tagDataList">
+                        <th scope="row">{{tag.data.idHex}}</th>
+                        <td>{{tag.data.accessResults}}</td>
+                        <td>{{tag.timestamp}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
